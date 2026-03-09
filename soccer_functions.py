@@ -8,7 +8,24 @@ def welcome() :
     print("You will enter in the number of games you will play and your opponants name")
     return home_name
 
-# FUnction Two (Final Record)
+
+#Function Two (Playing the game)
+def play_game(home_name, awayTeam):
+    homeTeamScore = random.randint(0,3)
+    awayTeamScore = random.randint(0,3)
+
+    while homeTeamScore == awayTeamScore:
+        homeTeamScore = random.randint(0,3)
+        awayTeamScore = random.randint(0,3)
+
+    print(f"{home_name}'s score: {homeTeamScore} - {awayTeam}'s score: {awayTeamScore}")
+
+    if homeTeamScore > awayTeamScore:
+        return "W"
+    else:
+        return "L"
+
+# Function Three (Final Record)
 def display_final_record(home_name, wins, losses, teamRecord, numGames):
     #Print out: Teams won against:
     #Then print out the name of each team your home team won against.
@@ -47,31 +64,15 @@ teamRecord = {"Won Against": [], "Lost Against": []}
 for i in range(numGames):
     awayTeam = input(f"Enter the name of the away team for game {i+1}: ")
 
-    homeTeamScore = random.randint(0,3)
-    awayTeamScore = random.randint(0,3)
+    result = play_game(home_name, awayTeam)
 
-    while homeTeamScore == awayTeamScore:
-        homeTeamScore = random.randint(0,3)
-        awayTeamScore = random.randint(0,3)
-
-#Keep track of the number of wins / losses of your home team however you want.
-
-    if homeTeamScore > awayTeamScore:
+    if result == "W":
         wins += 1
-    elif homeTeamScore < awayTeamScore:
-        losses += 1
-
-#You also need to keep track of the names of teams that your team won against and lost against in a dictionary.
-
-    if homeTeamScore > awayTeamScore:
         teamRecord["Won Against"].append(awayTeam)
-    elif homeTeamScore < awayTeamScore:
+    else:
+        losses += 1
         teamRecord["Lost Against"].append(awayTeam)
 
-
-#Print out the name of the home team’s name and their score, as well as the away team’s name and their score like this:
-
-    print(f"{home_name}'s score: {homeTeamScore} - {awayTeam}'s score: {awayTeamScore}")
 
 display_final_record(home_name, wins, losses, teamRecord, numGames)
 
