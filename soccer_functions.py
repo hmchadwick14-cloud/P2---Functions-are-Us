@@ -1,14 +1,40 @@
-# Haley Chadwick
-# Git Hub Group Project\
+# Haley Chadwick, Monica Arias, Ashlyn Crop, Zofia Lacka
+# Git Hub Group Project
 
-# Function One
+# Function One (Welcome Message)
 def welcome() :
     home_name = input("Please enter in your team name: ")
     print((f"Welcome {home_name} to your soccer season Predictions! \n") )
-    return home_name
     print("You will enter in the number of games you will play and your opponants name")
+    return home_name
+
+# FUnction Two (Final Record)
+def display_final_record(home_name, wins, losses, teamRecord, numGames):
+    #Print out: Teams won against:
+    #Then print out the name of each team your home team won against.
+    print("Teams won against:")
+    for team in teamRecord["Won Against"]:
+        print(f"  {team}")
+
+    #Print out: Teams lost against:
+    print("Teams lost against:")
+    for team in teamRecord["Lost Against"]:
+        print(f"  {team}")
+
+    #Print out Final season record followed by their record
+    print(f"Final season record: {wins} - {losses}")
+
+    #After all of this, print out a final message based on the record of the home team.
+    winPercentage = wins / numGames
+    if winPercentage >= 0.75:
+        print("Qualified for the NCAA Soccer Tournament!")
+    elif winPercentage >= 0.50:
+        print("You had a good season.")
+    else:
+        print("Your team needs to practice!")
 
 
+#Main Program
 import random
 
 home_name = welcome()
@@ -47,28 +73,6 @@ for i in range(numGames):
 
     print(f"{home_name}'s score: {homeTeamScore} - {awayTeam}'s score: {awayTeamScore}")
 
-#Print out: Teams won against:
-#Then print out the name of each team your home team won against.
-print("Teams won against:")
-for team in teamRecord["Won Against"]:
-    print(f"  {team}")
+display_final_record(home_name, wins, losses, teamRecord, numGames)
 
 
-#Print out: Teams lost against:
-print("Teams lost against:")
-for team in teamRecord["Lost Against"]:
-    print(f"  {team}")
-
-
-#Print out Final season record followed by their record
-print(f"Final season record: {wins} - {losses}")
-
-
-#After all of this, print out a final message based on the record of the home team.
-winPercentage = wins / numGames
-if winPercentage >= 0.75:
-    print("Qualified for the NCAA Soccer Tournament!")
-elif winPercentage >= 0.50:
-    print("You had a good season.")
-else:
-    print("Your team needs to practice!")
