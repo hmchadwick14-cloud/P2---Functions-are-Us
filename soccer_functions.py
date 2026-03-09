@@ -1,5 +1,5 @@
 # Haley Chadwick
-# Git Hub Group Project\
+# Git Hub Group Project
 
 # Function One
 def welcome() :
