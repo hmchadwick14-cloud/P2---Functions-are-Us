@@ -1,6 +1,8 @@
 # Haley Chadwick, Monica Arias, Ashlyn Crop, Zofia Lacka
 # Git Hub Group Project
 
+import random
+
 # Function One (Menu)
 # Displays the program menu and returns the user's choice
 def menu():
@@ -15,10 +17,10 @@ def menu():
 # Function Two (Welcome Message)
 # Asks the user for the home team name and prints a welcome message
 def welcome():
-    home_name = input("Please enter in your team name: ")
-    print((f"Welcome {home_name} to your soccer season Predictions! \n"))
-    print("You will enter in the number of games you will play and your opponents name")
-    return home_name
+    player_name = input("Please enter your name: ")
+    print(f"Welcome {player_name} to your soccer season Predictions! \n")
+    print("You will choose a home team, choose opponents, and play a full season.")
+    return player_name
 
 
 # Function Three (Playing the game)
@@ -52,17 +54,17 @@ def play_game(home_name, awayTeam):
 def display_final_record(home_name, wins, losses, teamRecord, numGames):
 
     # Print the teams the home team won against
-    print("Teams won against:")
+    print("\nTeams won against:")
     for team in teamRecord["Won Against"]:
         print(f"  {team}")
 
     # Print the teams the home team lost against
-    print("Teams lost against:")
+    print("\nTeams lost against:")
     for team in teamRecord["Lost Against"]:
         print(f"  {team}")
 
     # Print the final record
-    print(f"Final season record: {wins} - {losses}")
+    print(f"\nFinal season record: {wins} - {losses}")
 
     # Calculate win percentage
     winPercentage = wins / numGames
@@ -80,55 +82,86 @@ def display_final_record(home_name, wins, losses, teamRecord, numGames):
 # Main Program
 # -------------------------
 
-import random
+def choose_team(team_list, removed_team=""):
+    available_teams = team_list.copy()
 
-# Loop keeps program running until user chooses to exit
-while True:
+    if removed_team != "" and removed_team in available_teams:
+        available_teams.remove(removed_team)
 
-    # Display menu and get user choice
-    choice = menu()
+    print("\nChoose a team:")
+    for index in range(len(available_teams)):
+        print(f"{index + 1}. {available_teams[index]}")
 
-    # Option 1: Play a soccer season
-    if choice == "1":
+    choice = int(input("Enter the number of your choice: "))
+    return available_teams[choice - 1]
 
-        # Get the home team name
-        home_name = welcome()
 
-        # Ask how many games will be played
-        numGames = int(input(f"Enter the number of games that {home_name} will play: "))
+def main():
+    teams = [
+        "BYU",
+        "University of Utah",
+        "UVU",
+        "Utah State",
+        "UCLA",
+        "USC",
+        "Stanford",
+        "Harvard"
+    ]
 
-        # Initialize win/loss counters
-        wins = 0
-        losses = 0
+    player_name = welcome()
 
-        # Dictionary to track teams won against and lost against
-        teamRecord = {"Won Against": [], "Lost Against": []}
+    # Loop keeps program running until user chooses to exit
+    while True:
 
-        # Loop through each game in the season
-        for i in range(numGames):
+        # Display menu and get user choice
+        choice = menu()
 
-            # Ask for the opponent team
-            awayTeam = input(f"Enter the name of the away team for game {i+1}: ")
+        # Option 1: Play a soccer season
+        if choice == "1":
 
-            # Play the game and store result
-            result = play_game(home_name, awayTeam)
+            # Get the home team name
+            home_name = choose_team(teams)
+            print(f"\n{player_name}, your home team is {home_name}.")
 
-            # Update win/loss counters and dictionary
-            if result == "W":
-                wins += 1
-                teamRecord["Won Against"].append(awayTeam)
-            else:
-                losses += 1
-                teamRecord["Lost Against"].append(awayTeam)
+            # Ask how many games will be played
+            numGames = int(input(f"Enter the number of games that {home_name} will play: "))
 
-        # After all games, display the final season results
-        display_final_record(home_name, wins, losses, teamRecord, numGames)
+            # Initialize win/loss counters
+            wins = 0
+            losses = 0
 
-    # Option 2: Exit the program
-    elif choice == "2":
-        print("Goodbye!")
-        break
+            # Dictionary to track teams won against and lost against
+            teamRecord = {"Won Against": [], "Lost Against": []}
 
-    # Handle invalid menu choices
-    else:
-        print("Invalid choice. Please try again.")
+            # Loop through each game in the season
+            for i in range(numGames):
+
+                # Ask for the opponent team
+                print(f"\nGame {i + 1}")
+                awayTeam = choose_team(teams, home_name)
+
+                # Play the game and store result
+                result = play_game(home_name, awayTeam)
+
+                # Update win/loss counters and dictionary
+                if result == "W":
+                    wins += 1
+                    teamRecord["Won Against"].append(awayTeam)
+                else:
+                    losses += 1
+                    teamRecord["Lost Against"].append(awayTeam)
+
+            # After all games, display the final season results
+            display_final_record(home_name, wins, losses, teamRecord, numGames)
+
+        # Option 2: Exit the program
+        elif choice == "2":
+            print("Goodbye!")
+            break
+
+        # Handle invalid menu choices
+        else:
+            print("Invalid choice. Please try again.")
+
+
+main()
